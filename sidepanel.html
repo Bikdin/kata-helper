@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>KATA Helper</title>
+<style>
+  * { box-sizing: border-box; }
+  :root { --bg:#fff; --bg2:#f3f5f7; --fg:#1b2430; --muted:#66727f; --line:#dde3e9; --accent:#0b8a7a; --accent-fg:#fff; --err:#c62828; --warn:#fff6e0; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1d2329; --bg2:#262e36; --fg:#e6ebef; --muted:#9aa6b2; --line:#36414b; --accent:#2bb39f; --accent-fg:#0d1a17; --err:#ff6b6b; --warn:#3a3220; } }
+  body { margin:0; background:var(--bg); color:var(--fg); font:13px/1.4 "Segoe UI", system-ui, sans-serif; }
+  .head { position:sticky; top:0; z-index:1; display:flex; align-items:center; gap:8px; padding:10px 12px; background:var(--bg); border-bottom:1px solid var(--line); }
+  .grow { margin-right:auto; min-width:0; }
+  .title { font-weight:700; font-size:14px; }
+  .muted { color:var(--muted); font-size:12px; }
+  .btn { border:1px solid var(--accent); background:var(--accent); color:var(--accent-fg); border-radius:6px; padding:6px 12px; cursor:pointer; font-size:13px; }
+  .btn:disabled { opacity:.6; cursor:default; }
+  .icon { border:none; background:none; color:var(--muted); cursor:pointer; font-size:16px; width:28px; height:28px; border-radius:6px; }
+  .icon:hover { background:var(--bg2); color:var(--fg); }
+  main { padding:8px 12px 16px; }
+  .err { color:var(--err); font-size:12px; margin:6px 0; word-break:break-word; }
+  .note { background:var(--warn); border-radius:6px; padding:8px 10px; margin:8px 0; font-size:12px; }
+  .settings { border:1px solid var(--line); border-radius:8px; padding:10px; margin:8px 0; background:var(--bg2); }
+  .settings label { display:block; font-size:12px; color:var(--muted); margin:6px 0 3px; }
+  .settings input { width:100%; border:1px solid var(--line); background:var(--bg); color:var(--fg); border-radius:6px; padding:6px 8px; font:12px Consolas, monospace; }
+  .settings .row { display:flex; gap:8px; align-items:center; margin-top:10px; }
+  .typed { border:1px solid var(--line); border-radius:8px; margin:6px 0; overflow:hidden; }
+  summary { display:flex; align-items:center; gap:8px; cursor:pointer; list-style:none; }
+  summary::-webkit-details-marker { display:none; }
+  summary::before { content:"▸"; color:var(--muted); }
+  details[open] > summary::before { content:"▾"; }
+  .tsum { padding:7px 10px; background:var(--bg2); font-weight:600; }
+  .type { margin-right:auto; text-transform:uppercase; }
+  .objd { border-top:1px solid var(--line); }
+  .row-obj { padding:6px 10px; }
+  .row-obj:hover { background:var(--bg2); }
+  .obj { margin-right:auto; font:12px Consolas, "Cascadia Mono", monospace; word-break:break-all; }
+  .cnt { font-weight:600; min-width:28px; text-align:right; }
+  .ipgrid { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:4px 10px 10px 24px; }
+  @media (max-width:360px) { .ipgrid { grid-template-columns:1fr; } }
+  .ipcol { min-width:0; }
+  .iphead { display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted); margin-bottom:3px; }
+  .copy { border:1px solid var(--line); background:var(--bg); color:var(--fg); border-radius:5px; padding:1px 7px; font-size:11px; cursor:pointer; }
+  .copy:hover { border-color:var(--accent); }
+  .ips { width:100%; resize:vertical; border:1px solid var(--line); border-radius:6px; background:var(--bg2); color:var(--fg); font:12px Consolas, monospace; padding:4px 6px; }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="grow">
+      <div class="title" id="title">Алерты</div>
+      <div class="muted" id="sub">нажмите «Обновить»</div>
+    </div>
+    <button class="btn" id="refresh">Обновить</button>
+    <button class="icon" id="toggleSettings" title="Настройки">⚙</button>
+  </div>
+  <main>
+    <div class="settings" id="settings" hidden>
+      <label for="origin">Адрес KATA</label>
+      <input id="origin" placeholder="https://kata.company.local">
+      <label for="company">company_id (из F12 → Network → allAlerts → Payload)</label>
+      <input id="company" placeholder="2b11970f-...">
+      <div class="row">
+        <button class="btn" id="save">Сохранить</button>
+        <span class="muted" id="saveMsg"></span>
+      </div>
+    </div>
+    <div id="out"></div>
+  </main>
+<script src="sidepanel.js"></script>
+</body>
+</html>
